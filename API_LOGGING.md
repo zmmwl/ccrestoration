@@ -7,7 +7,7 @@
 | `api_interceptor.mjs` | fetch 拦截模块，记录所有 Anthropic API 调用细节 |
 | `package/cli.js` | 原始可执行文件（未修改） |
 | `run.sh` | 启动脚本，自动加载拦截器 |
-| `prompt_log.md` | 默认日志输出文件（当前工作目录下） |
+| `prompt_log_*.md` | 默认日志输出文件（当前工作目录下，每次启动生成新文件） |
 
 ## 使用方式
 
@@ -34,7 +34,7 @@ node package/cli.js "你的问题"
 |--------|------|------|
 | 1 | `--api-log` 参数 | `./run.sh --api-log /tmp/debug.md` |
 | 2 | `API_LOG_FILE` 环境变量 | `API_LOG_FILE=./log.md ./run.sh` |
-| 3 | 默认值 | `./prompt_log.md`（当前工作目录） |
+| 3 | 默认值 | `./prompt_log_YYYYMMDDHHmmss.md`（当前工作目录，带时间戳） |
 
 ## 日志格式
 
@@ -120,6 +120,7 @@ node package/cli.js "你的问题"
 
 ## 注意事项
 
-- `run.sh` 启动时会清空日志文件；如需保留旧日志，请先手动备份
+- `run.sh` 启动时默认生成带时间戳的新日志文件，不会覆盖旧日志
+- 日志文件 `prompt_log_*.md` 已加入 `.gitignore`，不会被 git 跟踪
 - 日志文件是合法 Markdown，可用任何 Markdown 阅读器查看
 - 通过 `node package/cli.js` 直接运行时不加载拦截器，行为与原版完全一致

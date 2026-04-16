@@ -24,3 +24,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# API interceptor logs
+prompt_log_*.md

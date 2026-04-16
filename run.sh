@@ -23,13 +23,13 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# 日志路径：参数 > 环境变量 > 默认 ./prompt_log.md
+# 日志路径：参数 > 环境变量 > 默认 ./prompt_log_YYYYMMDDHHmmss.md
 if [ -n "$API_LOG_ARG" ]; then
   LOG_FILE="$API_LOG_ARG"
 elif [ -n "$API_LOG_FILE" ]; then
   LOG_FILE="$API_LOG_FILE"
 else
-  LOG_FILE="./prompt_log.md"
+  LOG_FILE="./prompt_log_$(date +%Y%m%d%H%M%S).md"
 fi
 
 # 导出环境变量供拦截器使用

@@ -4,9 +4,16 @@
 // Log path (priority: high → low):
 //   1. --api-log <path>          CLI argument
 //   2. API_LOG_FILE              Environment variable
-//   3. ./prompt_log.md           Default (current working directory)
+//   3. ./prompt_log_YYYYMMDDHHmmss.md  Default (current working directory, with timestamp)
 import { appendFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+
+function defaultLogFilename() {
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  const ts = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+  return `prompt_log_${ts}.md`;
+}
 
 function resolveLogPath() {
   // Check --api-log in argv
@@ -16,8 +23,8 @@ function resolveLogPath() {
   }
   // Check env var
   if (process.env.API_LOG_FILE) return resolve(process.env.API_LOG_FILE);
-  // Default
-  return resolve("prompt_log.md");
+  // Default: prompt_log_YYYYMMDDHHmmss.md
+  return resolve(defaultLogFilename());
 }
 
 const LOG_PATH = resolveLogPath();
